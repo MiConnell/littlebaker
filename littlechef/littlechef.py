@@ -4,8 +4,7 @@ import json
 import csv
 
 
-class make:
-
+class make(object):
 
     def a_list(self, length=101):
         self.length = length
