@@ -3,20 +3,21 @@ import csv
 import datetime
 import json
 import random
+from beemovie import script
 
 import numpy as np
 import pandas as pd
-
+from littletable import Table, DataObject
 
 class make(object):
     def __repr__(self):
         return "Class for making dummy objects - lists, dictionaries, dataframes, matricies, arrays, json, csv (plus more to come!)"
 
-    def a_list(self, length=101):
+    def a_list(self, length=101) -> list:
         self.length = length
         return [i for i in range(self.length)]
 
-    def a_dict(self):
+    def a_dict(self) -> dict:
         alpha = [
             "a",
             "b",
@@ -47,7 +48,7 @@ class make(object):
         ]
         return {a: n for a, n in enumerate(alpha)}
 
-    def a_df(self, n=100):
+    def a_df(self, n=100) -> pd.DataFrame:
 
         self.n = n
 
@@ -60,9 +61,9 @@ class make(object):
         return pd.DataFrame(
             [
                 [
-                    1,
-                    15.5,
-                    "xyz",
+                    random.randint(1, 1000),
+                    random.random()+random.randint(1,1000),
+                    script(),
                     False,
                     True,
                     np.nan,
@@ -77,14 +78,14 @@ class make(object):
         pass
         # TODO
 
-    def an_array(self):
+    def an_array(self) -> np.array:
         pass
         # TODO
 
-    def some_json(self):
+    def some_json(self) -> json:
         pass
         # TODO
 
-    def a_csv(self):
+    def a_csv(self) -> csv:
         pass
         # TODO
