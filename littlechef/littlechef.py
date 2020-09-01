@@ -1,13 +1,17 @@
-import pandas as pd
-import numpy as np
-import json
+import calendar
 import csv
 import datetime
+import json
 import random
-import calendar
+
+import numpy as np
+import pandas as pd
 
 
 class make(object):
+    def __repr__(self):
+        return "Class for making dummy objects - lists, dictionaries, dataframes, matricies, arrays, json, csv (plus more to come!)"
+
     def a_list(self, length=101):
         self.length = length
         return [i for i in range(self.length)]
@@ -71,12 +75,16 @@ class make(object):
 
     def a_matrix(self):
         pass
+        # TODO
 
     def an_array(self):
         pass
+        # TODO
 
     def some_json(self):
         pass
+        # TODO
 
     def a_csv(self):
         pass
+        # TODO
