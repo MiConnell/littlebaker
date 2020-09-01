@@ -3,18 +3,44 @@ import numpy as np
 import json
 import csv
 
+
 class make:
 
-    def __init__(self, course, meal, spice):
-        self.course = course
-        self.meal = meal
-        self.spice = spice
 
-    def a_list(self):
-        pass
+    def a_list(self, length=101):
+        self.length = length
+        return [i for i in range(self.length)]
 
     def a_dict(self):
-        pass
+        alpha = [
+            "a",
+            "b",
+            "c",
+            "d",
+            "e",
+            "f",
+            "g",
+            "h",
+            "i",
+            "j",
+            "k",
+            "l",
+            "m",
+            "n",
+            "o",
+            "p",
+            "q",
+            "r",
+            "s",
+            "t",
+            "u",
+            "v",
+            "w",
+            "x",
+            "y",
+            "z",
+        ]
+        return {a: n for a, n in enumerate(alpha)}
 
     def a_df(self):
         pass
