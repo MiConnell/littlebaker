@@ -59,9 +59,9 @@ class make(object):
         elif self.data_type == "str":
             littlelist = [a for a in self.alpha]
         elif self.data_type == "date":
-            littlelist = [date_generator() for _ in range(20)]
+            littlelist = [str(date_generator()) for _ in range(self.length)]
         elif self.data_type == "words":
-            littlelist = [a for a in script()]
+            littlelist = script().split()
         else:
             raise ValueError(
                 f"data_type `{self.data_type}` not recognized. Valid options are 'int', 'str', 'date', or 'words'"
