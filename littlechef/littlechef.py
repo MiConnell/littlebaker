@@ -1,25 +1,25 @@
 import calendar
-import csv
 import datetime
 import json
 import random
-from beemovie import script
 
 import numpy as np
 import pandas as pd
-from littletable import Table, DataObject
+from littletable import DataObject, Table
+
+from beemovie import script
+
+
+def date_generator(start_year=1950):
+    month = random.randint(1, 12)
+    year = random.randint(start_year, datetime.datetime.now().year)
+    dates = calendar.Calendar().itermonthdates(year, month)
+    return random.choice([date for date in dates if date.year == year])
 
 
 class make(object):
-    def __repr__(self):
-        return "Class for making dummy objects - lists, dictionaries, dataframes, matricies, arrays, json, csv (plus more to come!)"
-
-    def a_list(self, length=101) -> list:
-        self.length = length
-        return [i for i in range(self.length)]
-
-    def a_dict(self) -> dict:
-        alpha = [
+    def __init__(self):
+        self.alpha = [
             "a",
             "b",
             "c",
@@ -47,17 +47,33 @@ class make(object):
             "y",
             "z",
         ]
-        return {a: n for a, n in enumerate(alpha)}
+
+    def __repr__(self):
+        return "Class for making dummy objects - lists, dictionaries, dataframes, matricies, arrays, json, csv (plus more to come!)"
+
+    def a_list(self, length: int = 101, data_type: str = "int") -> list:
+        self.length = length
+        self.data_type = data_type
+        if self.data_type == "int":
+            littlelist = [i for i in range(self.length)]
+        elif self.data_type == "str":
+            littlelist = [a for a in self.alpha]
+        elif self.data_type == "date":
+            littlelist = [date_generator() for _ in range(20)]
+        elif self.data_type == "words":
+            littlelist = [a for a in script()]
+        else:
+            raise ValueError(
+                f"data_type `{self.data_type}` not recognized. Valid options are 'int', 'str', 'date', or 'words'"
+            )
+        return littlelist
+
+    def a_dict(self) -> dict:
+        return {a: n for a, n in enumerate(self.alpha)}
 
     def a_df(self, n=100) -> pd.DataFrame:
 
         self.n = n
-
-        def date_generator():
-            month = random.randint(1, 12)
-            year = random.randint(1950, datetime.datetime.now().year)
-            dates = calendar.Calendar().itermonthdates(year, month)
-            return random.choice([date for date in dates if date.year == year])
 
         return pd.DataFrame(
             [
@@ -85,15 +101,12 @@ class make(object):
 
     def a_matrix(self):
         pass
-        # TODO
 
     def an_array(self) -> np.array:
         pass
-        # TODO
 
     def some_json(self):
         pass
-        # TODO
 
     def a_csv(self, filename="./littlechef.csv"):
         self.filename = filename
@@ -101,10 +114,13 @@ class make(object):
         return f"csv {self.filename} created!"
 
 
+make = make()
+
 """
 ## TODO
 TESTS
 Readme updates
+Comments/Docstrings
 list - default types to int but allow specifying desired type
 matrix - anything
 json - anything
