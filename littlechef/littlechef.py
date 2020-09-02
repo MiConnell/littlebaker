@@ -103,6 +103,8 @@ class make(object):
 
 """
 ## TODO
+TESTS
+Readme updates
 list - default types to int but allow specifying desired type
 matrix - anything
 json - anything
