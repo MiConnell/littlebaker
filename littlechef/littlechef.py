@@ -9,6 +9,7 @@ import numpy as np
 import pandas as pd
 from littletable import Table, DataObject
 
+
 class make(object):
     def __repr__(self):
         return "Class for making dummy objects - lists, dictionaries, dataframes, matricies, arrays, json, csv (plus more to come!)"
@@ -62,7 +63,7 @@ class make(object):
             [
                 [
                     random.randint(1, 1000),
-                    random.random()+random.randint(1,1000),
+                    random.random() + random.randint(1, 1000),
                     script(),
                     False,
                     True,
@@ -71,7 +72,15 @@ class make(object):
                 ]
                 for _ in range(n)
             ],
-            columns=["A", "B", "C", "D", "E", "F", "G"],
+            columns=[
+                "Col_int",
+                "Col_float",
+                "Col_string",
+                "Col_boolFalse",
+                "Col_boolTrue",
+                "Col_npNan",
+                "Col_datetime",
+            ],
         )
 
     def a_matrix(self):
@@ -82,10 +91,21 @@ class make(object):
         pass
         # TODO
 
-    def some_json(self) -> json:
+    def some_json(self):
         pass
         # TODO
 
-    def a_csv(self) -> csv:
-        pass
-        # TODO
+    def a_csv(self, filename="./littlechef.csv"):
+        self.filename = filename
+        self.a_df().to_csv(self.filename)
+        return f"csv {self.filename} created!"
+
+
+"""
+## TODO
+list - default types to int but allow specifying desired type
+matrix - anything
+json - anything
+array - anything
+
+"""
