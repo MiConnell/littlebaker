@@ -1,1 +1,1 @@
-from littlechef.littlechef import make
+from littlechef import make
