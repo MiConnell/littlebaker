@@ -6,7 +6,6 @@ from typing import List
 
 import numpy as np
 import pandas as pd
-from littletable import DataObject, Table
 
 from beemovie import script  # noqa
 
@@ -92,11 +91,11 @@ class make(object):
         if self.data_type == "int":
             return [i for i in range(self.length)]
         elif self.data_type == "str":
-            return [a for a in self.alpha]
+            return [a for i, a in enumerate(self.alpha) if i < self.length]
         elif self.data_type == "date":
             return [str(date_generator()) for _ in range(self.length)]
         elif self.data_type == "words":
-            return script().split()
+            return script().split()[0:self.length]
         else:
             raise ValueError(
                 f"data_type `{self.data_type}` not recognized. Valid options are 'int', 'str', 'date', or 'words'"
@@ -142,12 +141,17 @@ class make(object):
         pass
 
     def some_json(self) -> json:
-        pass
+        self.int_list = self.a_list(length=5)
+        self.value_list = [
+            self.a_list(length=5),
+            self.a_list(length=5, data_type="str"),
+            self.a_list(length=5, data_type="date"),
+            self.a_list(length=5, data_type="words"),
+        ]
+        self.data = {a: s for a, s in zip(self.int_list, self.value_list)}
+        return json.dumps(self.data)
 
     def a_csv(self, filename="./littlechef.csv"):
         self.filename = filename
         self.a_df().to_csv(self.filename)
         return f"csv {self.filename} created!"
-
-
-make = make()
