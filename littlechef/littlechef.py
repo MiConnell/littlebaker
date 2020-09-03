@@ -12,12 +12,12 @@ from beemovie import script  # noqa
 
 def date_generator(num_dates=1, start_year=1950, end_year=datetime.datetime.now().year):
     if num_dates <= 0:
-        raise ValueError('Number of dates must be greater than zero')
-    month = random.randint(1, 12)
-    year = random.randint(start_year, end_year)
-    dates = calendar.Calendar().itermonthdates(year, month)
-    date_list = [date for date in dates if date.year == year]
+        raise ValueError("Number of dates must be greater than zero")
     while num_dates > 1 and num_dates is not None:
+        year = random.randint(start_year, end_year)
+        month = random.randint(1, 12)
+        dates = calendar.Calendar().itermonthdates(year, month)
+        date_list = [date for date in dates if start_year <= date.year <= end_year]
         print(random.choice(date_list))
         num_dates -= 1
     return random.choice(date_list)
