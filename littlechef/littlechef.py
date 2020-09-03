@@ -135,6 +135,3 @@ json - anything
 array - anything
 
 """
-
-if __name__ == "__main__":
-    date_generator(5)
