@@ -90,18 +90,17 @@ class make(object):
         self.length = length
         self.data_type = data_type
         if self.data_type == "int":
-            littlelist = [i for i in range(self.length)]
+            return [i for i in range(self.length)]
         elif self.data_type == "str":
-            littlelist = [a for a in self.alpha]
+            return [a for a in self.alpha]
         elif self.data_type == "date":
-            littlelist = [str(date_generator()) for _ in range(self.length)]
+            return [str(date_generator()) for _ in range(self.length)]
         elif self.data_type == "words":
-            littlelist = script().split()
+            return script().split()
         else:
             raise ValueError(
                 f"data_type `{self.data_type}` not recognized. Valid options are 'int', 'str', 'date', or 'words'"
             )
-        return littlelist
 
     def a_dict(self, length: int = 101, data_type: str = "int") -> dict:
         self.length = length
@@ -152,14 +151,3 @@ class make(object):
 
 
 make = make()
-
-"""
-## TODO
-TESTS
-Readme updates
-Comments/Docstrings
-list - allow mixed types in list/dicts
-matrix - anything
-json - anything
-array - anything
-"""
