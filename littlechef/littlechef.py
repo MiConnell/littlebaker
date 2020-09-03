@@ -7,15 +7,17 @@ from typing import List
 import numpy as np
 import pandas as pd
 
-from beemovie import script  # noqa
+import beemovie # noqa
 
 pd.options.display.max_columns = 8
+
+current_year = datetime.datetime.now().year
 
 
 def date_generator(
     num_dates: int = 1,
     start_year: int = 1950,
-    end_year: int = datetime.datetime.now().year,
+    end_year: int = current_year,
     as_list: bool = False,
 ):
     """
@@ -30,14 +32,16 @@ def date_generator(
             month = random.randint(1, 12)
             dates = calendar.Calendar().itermonthdates(year, month)
             date_list = [date for date in dates if start_year <= date.year <= end_year]
-            return random.choice(date_list)
-        while num_dates > 1:
-            year = random.randint(start_year, end_year)
-            month = random.randint(1, 12)
-            dates = calendar.Calendar().itermonthdates(year, month)
-            date_list = [date for date in dates if start_year <= date.year <= end_year]
-            print(random.choice(date_list))
-            num_dates -= 1
+        else:
+            while num_dates > 1:
+                year = random.randint(start_year, end_year)
+                month = random.randint(1, 12)
+                dates = calendar.Calendar().itermonthdates(year, month)
+                date_list = [
+                    date for date in dates if start_year <= date.year <= end_year
+                ]
+                print(random.choice(date_list))
+                num_dates -= 1
         return random.choice(date_list)
     date_res = (
         []
@@ -95,7 +99,9 @@ class make(object):
         elif self.data_type == "date":
             return [str(date_generator()) for _ in range(self.length)]
         elif self.data_type == "words":
-            return script().split()[0:self.length]
+            start = random.randint(
+                0, len(beemovie.honey) - self.length - 1)
+            return beemovie.honey[start: start + self.length]
         else:
             raise ValueError(
                 f"data_type `{self.data_type}` not recognized. Valid options are 'int', 'str', 'date', or 'words'"
@@ -115,7 +121,7 @@ class make(object):
                 [
                     random.randint(1, 1000),
                     random.random() + random.randint(1, 1000),
-                    script(),
+                    beemovie.script(),
                     False,
                     True,
                     np.nan,
@@ -155,3 +161,6 @@ class make(object):
         self.filename = filename
         self.a_df().to_csv(self.filename)
         return f"csv {self.filename} created!"
+
+
+make = make()
