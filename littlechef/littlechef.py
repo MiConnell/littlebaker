@@ -2,6 +2,7 @@ import calendar
 import datetime
 import json
 import random
+from typing import List
 
 import numpy as np
 import pandas as pd
@@ -9,14 +10,29 @@ from littletable import DataObject, Table
 
 from beemovie import script  # noqa
 
+pd.options.display.max_columns = 8
+
 
 def date_generator(
-    num_dates=1, start_year=1950, end_year=datetime.datetime.now().year, as_list=False
+    num_dates: int = 1,
+    start_year: int = 1950,
+    end_year: int = datetime.datetime.now().year,
+    as_list: bool = False,
 ):
+    """
+    Function to generate date(s). Specify the number of dates (num_dates, defaults to 1), start year (start_year, defaults to 1950),
+    end year (end_year, defaults to the current year), and whether you'd like the resuts as a list (as_list, defaults to False)
+    """
     if num_dates <= 0:
         raise ValueError("Number of dates must be greater than zero")
-    if as_list is False:
-        while num_dates > 1 and num_dates is not None:
+    if not as_list:
+        if num_dates == 1:
+            year = random.randint(start_year, end_year)
+            month = random.randint(1, 12)
+            dates = calendar.Calendar().itermonthdates(year, month)
+            date_list = [date for date in dates if start_year <= date.year <= end_year]
+            return random.choice(date_list)
+        while num_dates > 1:
             year = random.randint(start_year, end_year)
             month = random.randint(1, 12)
             dates = calendar.Calendar().itermonthdates(year, month)
@@ -24,7 +40,9 @@ def date_generator(
             print(random.choice(date_list))
             num_dates -= 1
         return random.choice(date_list)
-    date_res = []  # list comprehension doesn't work very well since the year is not randomly chosen inline :(
+    date_res = (
+        []
+    )  # list comprehension doesn't work very well since the year is not randomly chosen inline :(
     for _ in range(num_dates):
         year = random.randint(start_year, end_year)
         month = random.randint(1, 12)
@@ -118,7 +136,7 @@ class make(object):
             ],
         )
 
-    def a_matrix(self):
+    def a_matrix(self) -> List[list]:
         pass
 
     def an_array(self) -> np.array:
@@ -144,7 +162,4 @@ list - allow mixed types in list/dicts
 matrix - anything
 json - anything
 array - anything
-
 """
-if __name__ == "__main__":
-    print(date_generator(50, 1950, 1956, True))
