@@ -10,17 +10,28 @@ from littletable import DataObject, Table
 from beemovie import script  # noqa
 
 
-def date_generator(num_dates=1, start_year=1950, end_year=datetime.datetime.now().year):
+def date_generator(
+    num_dates=1, start_year=1950, end_year=datetime.datetime.now().year, as_list=False
+):
     if num_dates <= 0:
         raise ValueError("Number of dates must be greater than zero")
-    while num_dates > 1 and num_dates is not None:
+    if as_list is False:
+        while num_dates > 1 and num_dates is not None:
+            year = random.randint(start_year, end_year)
+            month = random.randint(1, 12)
+            dates = calendar.Calendar().itermonthdates(year, month)
+            date_list = [date for date in dates if start_year <= date.year <= end_year]
+            print(random.choice(date_list))
+            num_dates -= 1
+        return random.choice(date_list)
+    date_res = []  # list comprehension doesn't work very well since the year is not randomly chosen inline :(
+    for _ in range(num_dates):
         year = random.randint(start_year, end_year)
         month = random.randint(1, 12)
         dates = calendar.Calendar().itermonthdates(year, month)
         date_list = [date for date in dates if start_year <= date.year <= end_year]
-        print(random.choice(date_list))
-        num_dates -= 1
-    return random.choice(date_list)
+        date_res.append(str(random.choice(date_list)))
+    return date_res
 
 
 class make(object):
@@ -135,3 +146,5 @@ json - anything
 array - anything
 
 """
+if __name__ == "__main__":
+    print(date_generator(50, 1950, 1956, True))
