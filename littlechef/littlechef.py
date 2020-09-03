@@ -7,14 +7,20 @@ import numpy as np
 import pandas as pd
 from littletable import DataObject, Table
 
-from beemovie import script
+from beemovie import script  # noqa
 
 
-def date_generator(start_year=1950):
+def date_generator(num_dates=1, start_year=1950, end_year=datetime.datetime.now().year):
+    if num_dates <= 0:
+        raise ValueError('Number of dates must be greater than zero')
     month = random.randint(1, 12)
-    year = random.randint(start_year, datetime.datetime.now().year)
+    year = random.randint(start_year, end_year)
     dates = calendar.Calendar().itermonthdates(year, month)
-    return random.choice([date for date in dates if date.year == year])
+    date_list = [date for date in dates if date.year == year]
+    while num_dates > 1 and num_dates is not None:
+        print(random.choice(date_list))
+        num_dates -= 1
+    return random.choice(date_list)
 
 
 class make(object):
@@ -68,10 +74,12 @@ class make(object):
             )
         return littlelist
 
-    def a_dict(self) -> dict:
+    def a_dict(self, length: int = 101, data_type: str = "int") -> dict:
+        self.length = length
+        self.data_type = data_type
         return {a: n for a, n in enumerate(self.alpha)}
 
-    def a_df(self, n=100) -> pd.DataFrame:
+    def a_df(self, n: int = 100) -> pd.DataFrame:
 
         self.n = n
 
@@ -105,7 +113,7 @@ class make(object):
     def an_array(self) -> np.array:
         pass
 
-    def some_json(self):
+    def some_json(self) -> json:
         pass
 
     def a_csv(self, filename="./littlechef.csv"):
@@ -121,9 +129,12 @@ make = make()
 TESTS
 Readme updates
 Comments/Docstrings
-list - default types to int but allow specifying desired type
+list - allow mixed types in list/dicts
 matrix - anything
 json - anything
 array - anything
 
 """
+
+if __name__ == "__main__":
+    date_generator(5)
