@@ -2,7 +2,6 @@
 
 creates lists, dictionaries, etc. for testing
 
-    import littlechef
-    make = littlechef.make()
+    from littlechef import littlechef
 
-    test_df = make.a_df() # returns Pandas DataFrame already filled out with 100 rows(default)
+    test_df = littlechef.make.a_df() # returns Pandas DataFrame already filled out with 100 rows(default)
