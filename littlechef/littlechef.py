@@ -7,7 +7,7 @@ from typing import List
 import numpy as np
 import pandas as pd
 
-import beemovie # noqa
+import beemovie  # noqa
 
 pd.options.display.max_columns = 8
 
@@ -94,23 +94,32 @@ class make(object):
         self.data_type = data_type
         if self.data_type == "int":
             return [i for i in range(self.length)]
-        elif self.data_type == "str":
-            return [a for i, a in enumerate(self.alpha) if i < self.length]
+        elif self.data_type == "char":
+            return [random.choice(self.alpha) for _ in range(self.length + 1)]
         elif self.data_type == "date":
             return [str(date_generator()) for _ in range(self.length)]
-        elif self.data_type == "words":
-            start = random.randint(
-                0, len(beemovie.honey) - self.length - 1)
-            return beemovie.honey[start: start + self.length]
+        elif self.data_type == "str":
+            if self.length > len(beemovie.honey):
+                raise ValueError(f'Maximum allowed length for data_type `str` is {len(beemovie.honey)}')
+            if self.length == len(beemovie.honey):
+                return beemovie.honey
+            start = random.randint(0, len(beemovie.honey) - self.length - 1)
+            return beemovie.honey[start:start + self.length]
         else:
             raise ValueError(
-                f"data_type `{self.data_type}` not recognized. Valid options are 'int', 'str', 'date', or 'words'"
+                f"data_type `{self.data_type}` not recognized. Valid options are 'int', 'char', 'date', or 'str'"
             )
 
-    def a_dict(self, length: int = 101, data_type: str = "int") -> dict:
+    def a_dict(self, length: int = 101, key_type: str = "int", value_type: str = "char") -> dict:
         self.length = length
-        self.data_type = data_type
-        return {a: n for a, n in enumerate(self.alpha)}
+        self.key_type = key_type
+        self.value_type = value_type
+        return {
+            a: n
+            for a, n in enumerate(
+                random.choice(self.alpha) for _ in range(self.length + 1)
+            )
+        }
 
     def a_df(self, n: int = 100) -> pd.DataFrame:
 
@@ -144,15 +153,16 @@ class make(object):
         pass
 
     def an_array(self) -> np.array:
-        pass
+        return np.array(self.a_matrix())
 
-    def some_json(self) -> json:
-        self.int_list = self.a_list(length=5)
+    def some_json(self, value_length=5) -> json:
+        self.value_length = value_length
+        self.int_list = self.a_list(length=4)
         self.value_list = [
-            self.a_list(length=5),
-            self.a_list(length=5, data_type="str"),
-            self.a_list(length=5, data_type="date"),
-            self.a_list(length=5, data_type="words"),
+            self.a_list(length=self.value_length),
+            self.a_list(length=self.value_length, data_type="char"),
+            self.a_list(length=self.value_length, data_type="date"),
+            self.a_list(length=self.value_length, data_type="str"),
         ]
         self.data = {a: s for a, s in zip(self.int_list, self.value_list)}
         return json.dumps(self.data)
