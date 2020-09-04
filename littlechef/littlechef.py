@@ -134,7 +134,7 @@ class make(object):
             if self.length == len(beemovie.honey):
                 return beemovie.honey
             start = random.randint(0, len(beemovie.honey) - (self.length - 1))
-            return beemovie.honey[start:(start + self.length)]
+            return beemovie.honey[start : (start + self.length)]
         else:
             raise ValueError(
                 f"data_type `{self.data_type}` not recognized. Valid options are 'int', 'float', 'char', 'date', or 'str'"
@@ -188,9 +188,9 @@ class make(object):
         self.list_length = list_length
         self.value_type = value_type
         if self.num_lists <= 0:
-            raise ValueError('num_lists must be greater than 0')
+            raise ValueError("num_lists must be greater than 0")
         if self.list_length <= 0:
-            raise ValueError('list_length must be greater than 0')
+            raise ValueError("list_length must be greater than 0")
         if self.value_type not in ("all", "int", "float", "str", "char", "date"):
             raise ValueError(
                 f"value_type {self.value_type} not allowed. Valid options are 'int', 'float', 'str', 'char', 'date', or 'all'"
@@ -228,12 +228,28 @@ class make(object):
         self.data = {a: s for a, s in zip(self.int_list, self.value_list)}
         return json.dumps(self.data)
 
-    def a_csv(self, path: str, filename: str = "littlechef.csv", rows: int = 100) -> csv:
+    def a_csv(
+        self,
+        path=Path.cwd(),
+        filename: str = "littlechef.csv",
+        rows: int = 100,
+        df: pd.DataFrame = None,
+    ) -> csv:
         self.filename = filename
         self.path = path
         self.rows = rows
-        self.a_df(n=self.rows).to_csv(self.filename)
-        print(f"csv {self.filename} created!")
+        self.df = df
+        if self.path == Path.cwd():
+            self.destination = Path(fr"{self.path}/{self.filename}")
+        elif path[-1] in ("/", "\\"):
+            self.destination = Path(fr"{self.path}{self.filename}")
+        else:
+            self.destination = Path(fr"{self.path}/{self.filename}")
+        if self.df is None:
+            self.a_df(n=self.rows).to_csv(self.destination)
+        else:
+            df.to_csv(self.destination)
+        print(f"csv {self.destination} created!")
 
 
 make = make()
