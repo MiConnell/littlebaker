@@ -135,7 +135,7 @@ class make(object):
             if self.length == len(beemovie.honey):
                 return beemovie.honey
             start = random.randint(0, len(beemovie.honey) - (self.length - 1))
-            return beemovie.honey[start : (start + self.length)]
+            return beemovie.honey[start:(start + self.length)]
         else:
             raise ValueError(
                 f"data_type `{self.data_type}` not recognized. Valid options are 'int', 'float', 'char', 'date', or 'str'"
@@ -195,13 +195,13 @@ class make(object):
         if self.value_type == "all" and self.num_lists != 5:
             raise ValueError("num_lists must be 5 for value_type 'all'")
         if self.value_type == "all":
-            sublists = (
+            sublists = [
                 self.a_list(data_type="int", length=self.list_length),
                 self.a_list(data_type="float", length=self.list_length),
                 self.a_list(data_type="str", length=self.list_length),
                 self.a_list(data_type="char", length=self.list_length),
                 self.a_list(data_type="date", length=self.list_length),
-            )
+            ]
         else:
             sublists = [
                 self.a_list(length=self.list_length, data_type=self.value_type)
@@ -209,8 +209,9 @@ class make(object):
             ]
         return [s for s in sublists]
 
-    def an_array(self) -> np.array:
-        return np.array(self.a_matrix())
+    def an_array(self, matrix: List[list]) -> np.array:
+        self.matrix = matrix
+        return np.array(self.matrix)
 
     def some_json(self, value_length: int = 5) -> json:
         self.value_length = value_length
@@ -232,7 +233,3 @@ class make(object):
 
 
 make = make()
-
-
-if __name__ == "__main__":
-    print(make.a_list(-1))
