@@ -135,7 +135,7 @@ class make(object):
             if self.length == len(beemovie.honey):
                 return beemovie.honey
             start = random.randint(0, len(beemovie.honey) - (self.length - 1))
-            return beemovie.honey[start:(start + self.length)]
+            return beemovie.honey[start : (start + self.length)]
         else:
             raise ValueError(
                 f"data_type `{self.data_type}` not recognized. Valid options are 'int', 'float', 'char', 'date', or 'str'"
@@ -182,22 +182,37 @@ class make(object):
         self.df["col_datetime"] = pd.to_datetime(self.df["col_datetime"])
         return self.df
 
-    def a_matrix(self, num_lists: int = 5, list_length: int = 5) -> List[list]:
+    def a_matrix(
+        self, num_lists: int = 5, list_length: int = 5, value_type: str = "all"
+    ) -> List[list]:
         self.num_lists = num_lists
         self.list_length = list_length
-        sublists = (
-            self.a_list(data_type='int', length=self.list_length),
-            self.a_list(data_type='float', length=self.list_length),
-            self.a_list(data_type='str', length=self.list_length),
-            self.a_list(data_type='char', length=self.list_length),
-            self.a_list(data_type='date', length=self.list_length),
-        )
+        self.value_type = value_type
+        if self.value_type not in ("all", "int", "float", "str", "char", "date"):
+            raise ValueError(
+                f"value_type {self.value_type} not allowed. Valid options are 'int', 'float', 'str', 'char', 'date', or 'all'"
+            )
+        if self.value_type == "all" and self.num_lists != 5:
+            raise ValueError("num_lists must be 5 for value_type 'all'")
+        if self.value_type == "all":
+            sublists = (
+                self.a_list(data_type="int", length=self.list_length),
+                self.a_list(data_type="float", length=self.list_length),
+                self.a_list(data_type="str", length=self.list_length),
+                self.a_list(data_type="char", length=self.list_length),
+                self.a_list(data_type="date", length=self.list_length),
+            )
+        else:
+            sublists = [
+                self.a_list(length=self.list_length, data_type=self.value_type)
+                for _ in range(self.num_lists)
+            ]
         return [s for s in sublists]
 
     def an_array(self) -> np.array:
         return np.array(self.a_matrix())
 
-    def some_json(self, value_length=5) -> json:
+    def some_json(self, value_length: int = 5) -> json:
         self.value_length = value_length
         self.int_list = self.a_list(length=4)
         self.value_list = [
