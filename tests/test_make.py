@@ -12,3 +12,5 @@ def test_list_creation():
     assert type(littlechef.make.a_list(length=1, data_type='date')[0]) is str
     with pytest.raises(ValueError):
         littlechef.make.a_list(-1)
+    with pytest.raises(ValueError):
+        littlechef.make.a_list(data_type='not allowed')
