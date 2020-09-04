@@ -3,11 +3,15 @@ import datetime
 import json
 import random
 from typing import List
+import csv
 
 import numpy as np
 import pandas as pd
 
-import beemovie  # noqa
+try:
+    from littlechef import beemovie
+except ImportError as e:
+    import beemovie  # noqa
 
 pd.options.display.max_columns = 8
 
@@ -26,6 +30,10 @@ def date_generator(
     """
     if num_dates <= 0:
         raise ValueError("Number of dates must be greater than zero")
+    if start_year > end_year:
+        raise ValueError("start_year must be less than or equal to end_year")
+    if start_year < 1:
+        raise ValueError("start_year must be greater than 0")
     if not as_list:
         if num_dates == 1:
             year = random.randint(start_year, end_year)
@@ -90,42 +98,65 @@ class make(object):
         return "Class for making dummy objects - lists, dictionaries, dataframes, matricies, arrays, json, csv (plus more to come!)"
 
     def a_list(self, length: int = 101, data_type: str = "int") -> list:
+        """
+
+        Method to create a list. Specify the length (length, default is 101) and data type (data_type, default is 'int', options are:
+
+        int - return list of integers
+
+        float - return list of floats
+
+        char - return list of characters ['a', 'b', 'c']
+
+        date - return list of dates
+
+        str - return list of strings (these just so happen to be from the bee movie script)
+
+        )
+
+        """
         self.length = length
         self.data_type = data_type
+        if self.length <= 0:
+            raise ValueError("Length must be greater than 0")
         if self.data_type == "int":
             return [i for i in range(self.length)]
+        elif self.data_type == "float":
+            return [round(random.random() * 100, 3) for _ in range(self.length)]
         elif self.data_type == "char":
-            return [random.choice(self.alpha) for _ in range(self.length + 1)]
+            return [random.choice(self.alpha) for _ in range(self.length)]
         elif self.data_type == "date":
             return [str(date_generator()) for _ in range(self.length)]
         elif self.data_type == "str":
             if self.length > len(beemovie.honey):
-                raise ValueError(f'Maximum allowed length for data_type `str` is {len(beemovie.honey)}')
+                raise ValueError(
+                    f"Maximum allowed length for data_type `str` is {len(beemovie.honey)}"
+                )
             if self.length == len(beemovie.honey):
                 return beemovie.honey
-            start = random.randint(0, len(beemovie.honey) - self.length - 1)
-            return beemovie.honey[start:start + self.length]
+            start = random.randint(0, len(beemovie.honey) - (self.length - 1))
+            return beemovie.honey[start:(start + self.length)]
         else:
             raise ValueError(
-                f"data_type `{self.data_type}` not recognized. Valid options are 'int', 'char', 'date', or 'str'"
+                f"data_type `{self.data_type}` not recognized. Valid options are 'int', 'float', 'char', 'date', or 'str'"
             )
 
-    def a_dict(self, length: int = 101, key_type: str = "int", value_type: str = "char") -> dict:
+    def a_dict(
+        self, length: int = 101, key_type: str = "int", value_type: str = "char"
+    ) -> dict:
         self.length = length
         self.key_type = key_type
         self.value_type = value_type
         return {
             a: n
-            for a, n in enumerate(
-                random.choice(self.alpha) for _ in range(self.length + 1)
-            )
+            for a, n in enumerate(random.choice(self.alpha) for _ in range(self.length))
         }
 
     def a_df(self, n: int = 100) -> pd.DataFrame:
 
         self.n = n
 
-        return pd.DataFrame(
+        self.df = pd.DataFrame(
             [
                 [
                     random.randint(1, 1000),
@@ -139,18 +170,29 @@ class make(object):
                 for _ in range(n)
             ],
             columns=[
-                "Col_int",
-                "Col_float",
-                "Col_string",
-                "Col_boolFalse",
-                "Col_boolTrue",
-                "Col_npNan",
-                "Col_datetime",
+                "col_int",
+                "col_float",
+                "col_string",
+                "col_boolFalse",
+                "col_boolTrue",
+                "col_npNan",
+                "col_datetime",
             ],
         )
+        self.df["col_datetime"] = pd.to_datetime(self.df["col_datetime"])
+        return self.df
 
-    def a_matrix(self) -> List[list]:
-        pass
+    def a_matrix(self, num_lists: int = 5, list_length: int = 5) -> List[list]:
+        self.num_lists = num_lists
+        self.list_length = list_length
+        sublists = (
+            self.a_list(data_type='int', length=self.list_length),
+            self.a_list(data_type='float', length=self.list_length),
+            self.a_list(data_type='str', length=self.list_length),
+            self.a_list(data_type='char', length=self.list_length),
+            self.a_list(data_type='date', length=self.list_length),
+        )
+        return [s for s in sublists]
 
     def an_array(self) -> np.array:
         return np.array(self.a_matrix())
@@ -167,10 +209,15 @@ class make(object):
         self.data = {a: s for a, s in zip(self.int_list, self.value_list)}
         return json.dumps(self.data)
 
-    def a_csv(self, filename="./littlechef.csv"):
+    def a_csv(self, filename="./littlechef.csv", rows: int = 100) -> csv:
         self.filename = filename
-        self.a_df().to_csv(self.filename)
+        self.rows = rows
+        self.a_df(n=self.rows).to_csv(self.filename)
         return f"csv {self.filename} created!"
 
 
 make = make()
+
+
+if __name__ == "__main__":
+    print(make.a_list(-1))
