@@ -18,7 +18,7 @@ pd.options.display.max_columns = 8
 
 current_year = datetime.datetime.now().year
 
-
+# Generate dates
 def date_generator(
     num_dates: int = 1,
     start_year: int = 1950,
@@ -98,6 +98,7 @@ class make(object):
     def __repr__(self):
         return "Class for making dummy objects - lists, dictionaries, dataframes, matricies, arrays, json, and csv files"
 
+    # Generate lists
     def a_list(self, length: int = 101, data_type: str = "int") -> list:
         """
         Method to create a list. Specify the length (length, default is 101) and data type (data_type, default is 'int', options are:
@@ -140,6 +141,7 @@ class make(object):
                 f"data_type `{self.data_type}` not recognized. Valid options are 'int', 'float', 'char', 'date', or 'str'"
             )
 
+    # Generate dictionary
     def a_dict(
         self, length: int = 101, key_type: str = "int", value_type: str = "char"
     ) -> dict:
@@ -151,6 +153,7 @@ class make(object):
             for a, n in enumerate(random.choice(self.alpha) for _ in range(self.length))
         }
 
+    # Generate Pandas DataFrame
     def a_df(self, n: int = 100) -> pd.DataFrame:
 
         self.n = n
@@ -181,6 +184,7 @@ class make(object):
         self.df["col_datetime"] = pd.to_datetime(self.df["col_datetime"])
         return self.df
 
+    # Generate a matrix (list of lists)
     def a_matrix(
         self, num_lists: int = 5, list_length: int = 5, value_type: str = "all"
     ) -> List[list]:
@@ -212,22 +216,26 @@ class make(object):
             ]
         return [s for s in sublists]
 
+    # Generate numpy array
     def an_array(self, matrix: List[list]) -> np.array:
         self.matrix = matrix
         return np.array(self.matrix)
 
+    # Generate json
     def some_json(self, value_length: int = 5) -> json:
         self.value_length = value_length
-        self.int_list = self.a_list(length=4)
+        self.int_list = self.a_list(length=5)
         self.value_list = [
             self.a_list(length=self.value_length),
             self.a_list(length=self.value_length, data_type="char"),
             self.a_list(length=self.value_length, data_type="date"),
             self.a_list(length=self.value_length, data_type="str"),
+            self.a_list(length=self.value_length, data_type="float"),
         ]
         self.data = {a: s for a, s in zip(self.int_list, self.value_list)}
         return json.dumps(self.data)
 
+    # Generate and save a csv
     def a_csv(
         self,
         path=Path.cwd(),
@@ -239,6 +247,10 @@ class make(object):
         self.path = path
         self.rows = rows
         self.df = df
+        if type(self.df) is not pd.DataFrame:
+            raise TypeError(
+                f"df '{self.df}' of type {type(self.df)} is not of correct type 'Pandas DataFrame'"
+            )
         if self.path == Path.cwd():
             self.destination = Path(fr"{self.path}/{self.filename}")
         elif path[-1] in ("/", "\\"):
@@ -248,7 +260,7 @@ class make(object):
         if self.df is None:
             self.a_df(n=self.rows).to_csv(self.destination)
         else:
-            df.to_csv(self.destination)
+            self.df.to_csv(self.destination)
         print(f"csv {self.destination} created!")
 
 
