@@ -1,9 +1,10 @@
 import calendar
+import csv
 import datetime
 import json
 import random
+from pathlib import Path
 from typing import List
-import csv
 
 import numpy as np
 import pandas as pd
@@ -95,11 +96,10 @@ class make(object):
         ]
 
     def __repr__(self):
-        return "Class for making dummy objects - lists, dictionaries, dataframes, matricies, arrays, json, csv (plus more to come!)"
+        return "Class for making dummy objects - lists, dictionaries, dataframes, matricies, arrays, json, and csv files"
 
     def a_list(self, length: int = 101, data_type: str = "int") -> list:
         """
-
         Method to create a list. Specify the length (length, default is 101) and data type (data_type, default is 'int', options are:
 
         int - return list of integers
@@ -113,7 +113,6 @@ class make(object):
         str - return list of strings (these just so happen to be from the bee movie script)
 
         )
-
         """
         self.length = length
         self.data_type = data_type
@@ -188,6 +187,10 @@ class make(object):
         self.num_lists = num_lists
         self.list_length = list_length
         self.value_type = value_type
+        if self.num_lists <= 0:
+            raise ValueError('num_lists must be greater than 0')
+        if self.list_length <= 0:
+            raise ValueError('list_length must be greater than 0')
         if self.value_type not in ("all", "int", "float", "str", "char", "date"):
             raise ValueError(
                 f"value_type {self.value_type} not allowed. Valid options are 'int', 'float', 'str', 'char', 'date', or 'all'"
@@ -225,11 +228,12 @@ class make(object):
         self.data = {a: s for a, s in zip(self.int_list, self.value_list)}
         return json.dumps(self.data)
 
-    def a_csv(self, filename="./littlechef.csv", rows: int = 100) -> csv:
+    def a_csv(self, path: str, filename: str = "littlechef.csv", rows: int = 100) -> csv:
         self.filename = filename
+        self.path = path
         self.rows = rows
         self.a_df(n=self.rows).to_csv(self.filename)
-        return f"csv {self.filename} created!"
+        print(f"csv {self.filename} created!")
 
 
 make = make()
