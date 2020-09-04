@@ -26,8 +26,10 @@ def date_generator(
     as_list: bool = False,
 ):
     """
-    Function to generate date(s). Specify the number of dates (num_dates, defaults to 1), start year (start_year, defaults to 1950),
-    end year (end_year, defaults to the current year), and whether you'd like the resuts as a list (as_list, defaults to False)
+    Function to generate date(s). Specify the number of dates (num_dates, defaults to 1),\n
+    start year (start_year, defaults to 1950),\n
+    end year (end_year, defaults to the current year),\n
+    and whether you'd like the resuts as a list (as_list, defaults to False)
     """
     if num_dates <= 0:
         raise ValueError("Number of dates must be greater than zero")
@@ -101,18 +103,12 @@ class make(object):
     # Generate lists
     def a_list(self, length: int = 101, data_type: str = "int") -> list:
         """
-        Method to create a list. Specify the length (length, default is 101) and data type (data_type, default is 'int', options are:
-
-        int - return list of integers
-
-        float - return list of floats
-
-        char - return list of characters ['a', 'b', 'c']
-
-        date - return list of dates
-
-        str - return list of strings (these just so happen to be from the bee movie script)
-
+        Creates a list. Specify the length (length, default is 101) and data type (data_type, default is 'int', options are:\n
+        int - return list of integers\n
+        float - return list of floats\n
+        char - return list of characters ['a', 'b', 'c']\n
+        date - return list of dates\n
+        str - return list of strings (these just so happen to be from the bee movie script)\n
         )
         """
         self.length = length
@@ -135,7 +131,7 @@ class make(object):
             if self.length == len(beemovie.honey):
                 return beemovie.honey
             start = random.randint(0, len(beemovie.honey) - (self.length - 1))
-            return beemovie.honey[start : (start + self.length)]
+            return beemovie.honey[start:(start + self.length)]
         else:
             raise ValueError(
                 f"data_type `{self.data_type}` not recognized. Valid options are 'int', 'float', 'char', 'date', or 'str'"
@@ -145,6 +141,11 @@ class make(object):
     def a_dict(
         self, length: int = 101, key_type: str = "int", value_type: str = "char"
     ) -> dict:
+        """
+        Generates a dictionary. Specify the length (length, defaults to 101),\n
+        key type (key_type, defaults to 'int'),\n
+        and value type (value_type, defaults to 'char')
+        """
         self.length = length
         self.key_type = key_type
         self.value_type = value_type
@@ -155,6 +156,17 @@ class make(object):
 
     # Generate Pandas DataFrame
     def a_df(self, n: int = 100) -> pd.DataFrame:
+        """
+        Generates a Pandas DataFrame with 7 columns and n rows (n, defaults to 100).\n
+        Columns are all various types:\n
+        int      - col_int
+        float    - col_float
+        string   - col_string
+        False    - col_boolFalse
+        True     - col_boolTrue
+        NaN      - col_npNan
+        datetime - col_datetime
+        """
 
         self.n = n
 
@@ -188,6 +200,14 @@ class make(object):
     def a_matrix(
         self, num_lists: int = 5, list_length: int = 5, value_type: str = "all"
     ) -> List[list]:
+        """
+        Generates a matrix (list of lists). Arguments are:\n
+        num_lists (how many lists to generate in the list, defaults to 5),\n
+        list_length (how long the inner lists should be, defaults to 5), \n
+        value_type (desired type for inner lists, options are 'int', 'float', 'str', 'char', 'date', or 'all'. Defaults to 'all').\n
+        value_type of 'all' will create 5 inner lists of all types above.
+
+        """
         self.num_lists = num_lists
         self.list_length = list_length
         self.value_type = value_type
@@ -217,12 +237,23 @@ class make(object):
         return [s for s in sublists]
 
     # Generate numpy array
-    def an_array(self, matrix: List[list]) -> np.array:
+    def an_array(self, matrix: List[list] = 'default') -> np.array:
+        """
+        Generates a numpy array. Defaults to creating an array generated from the default littlechef.make.a_matrix(), \n
+        but any valid list can be passed as an argument (including a custom littlechef.make.a_matrix())
+        """
         self.matrix = matrix
+        if matrix == 'default':
+            self.matrix = self.a_matrix()
+            return np.array(self.matrix)
         return np.array(self.matrix)
 
     # Generate json
     def some_json(self, value_length: int = 5) -> json:
+        """
+        Generates in-memory json.\n
+        Specify the value_length (defaults to 5) which specifies the length of the values in the key:value of the blob.
+        """
         self.value_length = value_length
         self.int_list = self.a_list(length=5)
         self.value_list = [
@@ -241,8 +272,14 @@ class make(object):
         path=Path.cwd(),
         filename: str = "littlechef.csv",
         rows: int = 100,
-        df: pd.DataFrame = None,
+        df: pd.DataFrame = 'default',
     ) -> csv:
+        """
+        Generates and saves a csv file. Specify the path to save (path, defaults to the current directory),\n
+        file name (filename, defaults to 'littlechef.csv'),\n
+        number of rows (rows, defaults to 100),\n
+        and dataframe to use (df, defaults to littlechef.make.a_df())
+        """
         self.filename = filename
         self.path = path
         self.rows = rows
@@ -257,7 +294,7 @@ class make(object):
             self.destination = Path(fr"{self.path}{self.filename}")
         else:
             self.destination = Path(fr"{self.path}/{self.filename}")
-        if self.df is None:
+        if self.df == 'default':
             self.a_df(n=self.rows).to_csv(self.destination)
         else:
             self.df.to_csv(self.destination)
