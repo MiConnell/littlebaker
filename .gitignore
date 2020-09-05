@@ -133,4 +133,11 @@ test.py
 
 # ignore vscode settings
 .vscode/
+
+# todo
 TODO
+
+# images
+images/
+
+*.DS_Store
