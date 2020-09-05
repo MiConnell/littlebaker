@@ -10,14 +10,12 @@ from typing import List
 import numpy as np
 import pandas as pd
 
-try:
-    from littlechef import beemovie
-except ImportError as e:
-    import beemovie  # noqa
+import beemovie  # noqa
 
 pd.options.display.max_columns = 8
 
 current_year = datetime.datetime.now().year
+
 
 # Generate dates
 def date_generator(
@@ -43,26 +41,31 @@ def date_generator(
             year = random.randint(start_year, end_year)
             month = random.randint(1, 12)
             dates = calendar.Calendar().itermonthdates(year, month)
-            date_list = [date for date in dates if start_year <= date.year <= end_year]
+            date_list = [
+                date for date in dates
+                if start_year <= date.year <= end_year
+            ]
         else:
             while num_dates > 1:
                 year = random.randint(start_year, end_year)
                 month = random.randint(1, 12)
                 dates = calendar.Calendar().itermonthdates(year, month)
                 date_list = [
-                    date for date in dates if start_year <= date.year <= end_year
+                    date for date in dates
+                    if start_year <= date.year <= end_year
                 ]
                 print(random.choice(date_list))
                 num_dates -= 1
         return random.choice(date_list)
-    date_res = (
-        []
-    )  # list comprehension doesn't work very well since the year is not randomly chosen inline :(
+    date_res = []
     for _ in range(num_dates):
         year = random.randint(start_year, end_year)
         month = random.randint(1, 12)
         dates = calendar.Calendar().itermonthdates(year, month)
-        date_list = [date for date in dates if start_year <= date.year <= end_year]
+        date_list = [
+            date for date in dates
+            if start_year <= date.year <= end_year
+        ]
         date_res.append(str(random.choice(date_list)))
     return date_res
 
@@ -90,13 +93,22 @@ class make(object):
         if self.length <= 0:
             raise ValueError("Length must be greater than 0")
         if self.data_type == "int":
-            return [i for i in range(self.length)]
+            return list(range(self.length))
         elif self.data_type == "float":
-            return [round(random.random() * 100, 3) for _ in range(self.length)]
+            return [
+                round(random.random() * 100, 3)
+                for _ in range(self.length)
+            ]
         elif self.data_type == "char":
-            return [random.choice(self.alpha) for _ in range(self.length)]
+            return [
+                random.choice(self.alpha)
+                for _ in range(self.length)
+            ]
         elif self.data_type == "date":
-            return [str(date_generator()) for _ in range(self.length)]
+            return [
+                str(date_generator())
+                for _ in range(self.length)
+            ]
         elif self.data_type == "str":
             if self.length > len(beemovie.honey):
                 raise ValueError(
@@ -104,8 +116,11 @@ class make(object):
                 )
             if self.length == len(beemovie.honey):
                 return beemovie.honey
-            start = random.randint(0, len(beemovie.honey) - (self.length - 1))
-            return beemovie.honey[start : (start + self.length)]
+            start = random.randint(
+                0,
+                len(beemovie.honey) - (self.length - 1)
+            )
+            return beemovie.honey[start:(start + self.length)]
         else:
             raise ValueError(
                 f"data_type `{self.data_type}` not recognized. Valid options are 'int', 'float', 'char', 'date', or 'str'"
@@ -113,7 +128,10 @@ class make(object):
 
     # Generate dictionary
     def a_dict(
-        self, length: int = 101, key_type: str = "int", value_type: str = "char"
+        self,
+        length: int = 101,
+        key_type: str = "int",
+        value_type: str = "char"
     ) -> dict:
         """
         Generates a dictionary. Specify the length (length, defaults to 101),\n
@@ -172,7 +190,10 @@ class make(object):
 
     # Generate a matrix (list of lists)
     def a_matrix(
-        self, num_lists: int = 5, list_length: int = 5, value_type: str = "all"
+        self,
+        num_lists: int = 5,
+        list_length: int = 5,
+        value_type: str = "all"
     ) -> List[list]:
         """
         Generates a matrix (list of lists). Arguments are:\n
@@ -180,7 +201,6 @@ class make(object):
         list_length (how long the inner lists should be, defaults to 5), \n
         value_type (desired type for inner lists, options are 'int', 'float', 'str', 'char', 'date', or 'all'. Defaults to 'all').\n
         value_type of 'all' will create 5 inner lists of all types above.
-
         """
         self.num_lists = num_lists
         self.list_length = list_length
@@ -189,14 +209,21 @@ class make(object):
             raise ValueError("num_lists must be greater than 0")
         if self.list_length <= 0:
             raise ValueError("list_length must be greater than 0")
-        if self.value_type not in ("all", "int", "float", "str", "char", "date"):
+        if self.value_type not in (
+            "all",
+            "int",
+            "float",
+            "str",
+            "char",
+            "date"
+        ):
             raise ValueError(
                 f"value_type {self.value_type} not allowed. Valid options are 'int', 'float', 'str', 'char', 'date', or 'all'"
             )
         if self.value_type == "all" and self.num_lists != 5:
             raise ValueError("num_lists must be 5 for value_type 'all'")
         if self.value_type == "all":
-            sublists = [
+            of_lists = [
                 self.a_list(data_type="int", length=self.list_length),
                 self.a_list(data_type="float", length=self.list_length),
                 self.a_list(data_type="str", length=self.list_length),
@@ -204,11 +231,11 @@ class make(object):
                 self.a_list(data_type="date", length=self.list_length),
             ]
         else:
-            sublists = [
+            of_lists = [
                 self.a_list(length=self.list_length, data_type=self.value_type)
                 for _ in range(self.num_lists)
             ]
-        return [s for s in sublists]
+        return list(of_lists)
 
     # Generate numpy array
     def an_array(self, matrix: List[list] = "default") -> np.array:
@@ -237,7 +264,7 @@ class make(object):
             self.a_list(length=self.value_length, data_type="str"),
             self.a_list(length=self.value_length, data_type="float"),
         ]
-        self.data = {a: s for a, s in zip(self.int_list, self.value_list)}
+        self.data = dict(zip(self.int_list, self.value_list))
         return json.dumps(self.data, indent=4)
 
     # Generate and save a csv
