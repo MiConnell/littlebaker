@@ -3,6 +3,7 @@ import csv
 import datetime
 import json
 import random
+import string
 from pathlib import Path
 from typing import List
 
@@ -68,34 +69,7 @@ def date_generator(
 
 class make(object):
     def __init__(self):
-        self.alpha = [
-            "a",
-            "b",
-            "c",
-            "d",
-            "e",
-            "f",
-            "g",
-            "h",
-            "i",
-            "j",
-            "k",
-            "l",
-            "m",
-            "n",
-            "o",
-            "p",
-            "q",
-            "r",
-            "s",
-            "t",
-            "u",
-            "v",
-            "w",
-            "x",
-            "y",
-            "z",
-        ]
+        self.alpha = string.ascii_lowercase
 
     def __repr__(self):
         return "Class for making dummy objects - lists, dictionaries, dataframes, matricies, arrays, json, and csv files"
@@ -131,7 +105,7 @@ class make(object):
             if self.length == len(beemovie.honey):
                 return beemovie.honey
             start = random.randint(0, len(beemovie.honey) - (self.length - 1))
-            return beemovie.honey[start:(start + self.length)]
+            return beemovie.honey[start : (start + self.length)]
         else:
             raise ValueError(
                 f"data_type `{self.data_type}` not recognized. Valid options are 'int', 'float', 'char', 'date', or 'str'"
@@ -237,13 +211,13 @@ class make(object):
         return [s for s in sublists]
 
     # Generate numpy array
-    def an_array(self, matrix: List[list] = 'default') -> np.array:
+    def an_array(self, matrix: List[list] = "default") -> np.array:
         """
         Generates a numpy array. Defaults to creating an array generated from the default littlechef.make.a_matrix(), \n
         but any valid list can be passed as an argument (including a custom littlechef.make.a_matrix())
         """
         self.matrix = matrix
-        if matrix == 'default':
+        if matrix == "default":
             self.matrix = self.a_matrix()
             return np.array(self.matrix)
         return np.array(self.matrix)
@@ -264,7 +238,7 @@ class make(object):
             self.a_list(length=self.value_length, data_type="float"),
         ]
         self.data = {a: s for a, s in zip(self.int_list, self.value_list)}
-        return json.dumps(self.data)
+        return json.dumps(self.data, indent=4)
 
     # Generate and save a csv
     def a_csv(
@@ -272,7 +246,7 @@ class make(object):
         path=Path.cwd(),
         filename: str = "littlechef.csv",
         rows: int = 100,
-        df: pd.DataFrame = 'default',
+        df: pd.DataFrame = "default",
     ) -> csv:
         """
         Generates and saves a csv file. Specify the path to save (path, defaults to the current directory),\n
@@ -294,7 +268,7 @@ class make(object):
             self.destination = Path(fr"{self.path}{self.filename}")
         else:
             self.destination = Path(fr"{self.path}/{self.filename}")
-        if self.df == 'default':
+        if self.df == "default":
             self.a_df(n=self.rows).to_csv(self.destination)
         else:
             self.df.to_csv(self.destination)
