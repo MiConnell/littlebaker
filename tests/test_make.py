@@ -76,3 +76,12 @@ def test_matrix_creation():
     assert type(littlechef.make.a_matrix(value_type='int')[0][0]) is int
     assert type(littlechef.make.a_matrix(value_type='float')[0][0]) is float
     assert type(littlechef.make.a_matrix(value_type='date')[0][0]) is str
+
+
+def test_array_creation():
+    mtr = littlechef.make.a_matrix()
+    assert type(littlechef.make.an_array(mtr)) is np.ndarray
+
+def test_csv_creation():
+    with pytest.raises(TypeError):
+        littlechef.make.a_csv(df='a')
