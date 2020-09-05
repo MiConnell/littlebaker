@@ -1,3 +1,4 @@
+# Numbered comments are defined in the index at the end of the file
 import calendar
 import csv
 import datetime
@@ -10,9 +11,9 @@ from typing import List
 import numpy as np
 import pandas as pd
 
-import beemovie  # noqa
+from . import beemovie  # 1
 
-pd.options.display.max_columns = 8
+pd.options.display.max_columns = 8  # 2
 
 current_year = datetime.datetime.now().year
 
@@ -72,13 +73,17 @@ def date_generator(
 
 class make(object):
     def __init__(self):
-        self.alpha = string.ascii_lowercase
+        self.alpha = string.ascii_lowercase  # 3
 
     def __repr__(self):
         return "Class for making dummy objects - lists, dictionaries, dataframes, matricies, arrays, json, and csv files"
 
     # Generate lists
-    def a_list(self, length: int = 101, data_type: str = "int") -> list:
+    def a_list(
+        self,
+        length: int = 101,
+        data_type: str = "int"
+    ) -> list:
         """
         Creates a list. Specify the length (length, default is 101) and data type (data_type, default is 'int', options are:\n
         int - return list of integers\n
@@ -167,7 +172,7 @@ class make(object):
                 [
                     random.randint(1, 1000),
                     random.random() + random.randint(1, 1000),
-                    beemovie.script(),
+                    beemovie.script(),  # 4
                     False,
                     True,
                     np.nan,
@@ -250,7 +255,10 @@ class make(object):
         return np.array(self.matrix)
 
     # Generate json
-    def some_json(self, value_length: int = 5) -> json:
+    def some_json(
+        self,
+        value_length: int = 5
+    ) -> json:
         """
         Generates in-memory json.\n
         Specify the value_length (defaults to 5) which specifies the length of the values in the key:value of the blob.
@@ -303,3 +311,10 @@ class make(object):
 
 
 make = make()
+
+
+"""INDEX"""
+# 1 Bee Movie script - useful for generating random words/sentences
+# 2 Option to print out all columns in Pandas DataFrame when returned
+# 3 Lowercase American English alphabet
+# 4 Random segments of the Bee Movie script
