@@ -19,3 +19,13 @@ All it takes is
 ## Installation
 
 simply install littlechef via pip `pip install littelchef`
+
+## Examples and Usage
+
+> a_list()
+> a_dict()
+> a_matrix()
+> an_array()
+> some_json()
+> a_csv()
+> a_df()
