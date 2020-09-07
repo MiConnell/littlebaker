@@ -34,6 +34,10 @@ def test_dict_creation():
     assert len(littlechef.make.a_dict()) == 101
     assert len(littlechef.make.a_dict(length=5)) == 5
     assert type(littlechef.make.a_dict(length=1)) is dict
+    with pytest.raises(ValueError):
+        littlechef.make.a_dict(length=-1)
+    with pytest.raises(ValueError):
+        littlechef.make.a_dict(value_type='invalid')
 
 
 def test_df_creation():
