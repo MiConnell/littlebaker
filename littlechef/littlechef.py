@@ -11,7 +11,8 @@ from typing import List
 import numpy as np
 import pandas as pd
 
-from . import beemovie  # 1
+import beemovie  # noqa
+
 
 pd.options.display.max_columns = 8  # 2
 
@@ -135,24 +136,44 @@ class make(object):
     def a_dict(
         self,
         length: int = 101,
-        key_type: str = "int",
         value_type: str = "char"
     ) -> dict:
         """
-        Generates a dictionary. Specify the length (length, defaults to 101),\n
-        key type (key_type, defaults to 'int'),\n
+        Generates a dictionary. Specify the length (length, defaults to 101)\n
         and value type (value_type, defaults to 'char')
         """
         self.length = length
-        self.key_type = key_type
         self.value_type = value_type
-        return {
-            a: n
-            for a, n in enumerate(random.choice(self.alpha) for _ in range(self.length))
-        }
+        if self.length <= 0:
+            raise ValueError("length must be greater than 0")
+        if self.value_type not in ("char", "int", "float", "str", "date"):
+            raise ValueError(f"Invalid value_type of `{self.value_type}`. Valid options are 'int', 'float', 'char', 'date', or 'str'")
+        if self.value_type == "char":
+            return dict(
+                enumerate(random.choice(self.alpha) for _ in range(self.length))
+            )
+        elif self.value_type == "int":
+            return dict(
+                enumerate(range(self.length))
+            )
+        elif self.value_type == "float":
+            return dict(
+                round(random.random() * 100, 3) for _ in range(self.length)
+            )
+        elif self.value_type == "str":
+            return dict(
+                enumerate(random.choice(beemovie.honey) for _ in range(self.length))
+            )
+        elif self.value_type == "date":
+            return dict(
+                enumerate(str(date_generator()) for _ in range(self.length))
+            )
 
     # Generate Pandas DataFrame
-    def a_df(self, n: int = 100) -> pd.DataFrame:
+    def a_df(
+        self,
+        n: int = 100
+    ) -> pd.DataFrame:
         """
         Generates a Pandas DataFrame with 7 columns and n rows (n, defaults to 100).\n
         Columns are all various types:\n
