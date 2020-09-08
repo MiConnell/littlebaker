@@ -12,7 +12,7 @@ setup(
     description="Package to auto-generate lists, dictionaries, arrays, matricies (list-of-lists), json, csv files, and Pandas Dataframes",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/pypa/sampleproject",
+    url="https://github.com/MiConnell/littlebaker",
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
