@@ -22,9 +22,7 @@ simply install littlebaker via pip `pip install littelbaker`
 
 ## Examples and Usage
 
-`littlebaker.make.`
-
-## a_list(length, data_type)
+### littlebaker.make.a_list(length, data_type)
 
     length=
         any integer greater than 0, specifies list length, defaults to 101
@@ -36,7 +34,7 @@ simply install littlebaker via pip `pip install littelbaker`
             date: returns a list of dates
             str: returns a list of random strings
 
-## a_dict(length, value_type)
+### littlebaker.make.a_dict(length, value_type)
 
     length=
         any integer greater than 0, specifies dictionary length, defaults to 101
@@ -49,7 +47,7 @@ simply install littlebaker via pip `pip install littelbaker`
             date: returns a dictionary with keys of integers and values of dates
             str: returns a dictionary with keys of integers and values of random strings
 
-## a_matrix(num_lists, list_length, value_type)
+### littlebaker.make.a_matrix(num_lists, list_length, value_type)
 
     num_lists=
         positive integer, specifies the number of lists within the returned matrix, defaults to 5
@@ -64,23 +62,23 @@ simply install littlebaker via pip `pip install littelbaker`
         str: returns inner lists of random strings
         all: returns inner lists of all of the above options. With this option, `num_lists` must be 5
 
-## an_array(matrix)
+### littlebaker.make.an_array(matrix)
 
     matrix=
         matrix to use to create the array, defaults to the default values in `littlebaker.make.a_matrix()`
         must be of type `List[list]`
 
-## some_json(value_length)
+### littlebaker.make.some_json(value_length)
 
     value_length=
         positive integer, specifies the length of the values returned in the resulting json, defaults to 5
 
-## a_df(n)
+### littlebaker.make.a_df(n)
 
     n=
         positive integer for the number of rows desired in the DataFrame, defaults to 100
 
-## a_csv(path, filename, rows, df, index)
+### littlebaker.make.a_csv(path, filename, rows, df, index)
 
     path=
         filepath to desired save location, defaults to the current `.py` file's directory
