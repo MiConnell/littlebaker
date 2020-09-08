@@ -24,7 +24,8 @@ simply install littlebaker via pip `pip install littelbaker`
 
 `littlebaker.make.`
 
-    a_list(length, data_type)
+## a_list(length, data_type)
+
         length=
             any integer greater than 0, specifies list length, defaults to 101
         data_type=
@@ -34,37 +35,53 @@ simply install littlebaker via pip `pip install littelbaker`
                 char: returns a list of single str characters
                 date: returns a list of dates
                 str: returns a list of random strings
-    a_dict(length, value_type)
+
+## a_dict(length, value_type)
+
         length=
-            any integer greater than 0, specifies dictionary length
+            any integer greater than 0, specifies dictionary length, defaults to 101
         value_type=
-            int: returns a dictionary with keys of integers and values of integers
-            float: returns a dictionary with keys of integers and values of floats
-            char: returns a dictionary with keys of integers and values of single str characters
-            date: returns a dictionary with keys of integers and values of dates
-            str: returns a dictionary with keys of integers and values of random strings
-    a_matrix(num_lists, list_length, value_type)
+            specifies the type returned in the value of the dictionary's key:value pair, defaults to char.
+            valid options are:
+                int: returns a dictionary with keys of integers and values of integers
+                float: returns a dictionary with keys of integers and values of floats
+                char: returns a dictionary with keys of integers and values of single str characters
+                date: returns a dictionary with keys of integers and values of dates
+                str: returns a dictionary with keys of integers and values of random strings
+
+## a_matrix(num_lists, list_length, value_type)
+
     num_lists=
-        positive integer, specifies the number of lists within the returned matrix
+        positive integer, specifies the number of lists within the returned matrix, defaults to 5
     list_length=
-        positive integer, specifies the lentgh of the inner lists
+        positive integer, specifies the lentgh of the inner lists, defaults to 5
     value_type=
+        specity the type returned in the inner lists, defaults to all
         int: returns inner lists of integers
         float: returns inner lists of floats
         char: returns inner lists of single str characters
         date: returns inner lists of dates
         str: returns inner lists of random strings
-    an_array(matrix)
+        all: returns inner lists of all of the above options. With this option, `num_lists` must be 5
+
+## an_array(matrix)
+
     matrix=
         matrix to use to create the array, defaults to the default values in `littlebaker.make.a_matrix()`
         must be of type `List[list]`
-    some_json(value_length)
+
+## some_json(value_length)
+
         value_length=
-            positive integer, specifies the length of the values returned in the resulting json
-    a_df(n)
+            positive integer, specifies the length of the values returned in the resulting json, defaults to 5
+
+## a_df(n)
+
         n=
             positive integer for the number of rows desired in the DataFrame, defaults to 100
-    a_csv(path, filename, rows, df, index)
+
+## a_csv(path, filename, rows, df, index)
+
         path=
             filepath to desired save location, defaults to the current `.py` file's directory
         filename=
@@ -78,7 +95,8 @@ simply install littlebaker via pip `pip install littelbaker`
 
 littlebaker can also generate dates for you with `littlebaker.date_generator()`
 
-    date_generator(num_dates, start_year, end_year, as_list)
+## date_generator(num_dates, start_year, end_year, as_list)
+
         num_dates=
             positive integer to specify the number of dates desired to be returned, defaults to 1
         start_year=
