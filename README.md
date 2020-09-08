@@ -23,11 +23,11 @@ simply install littlebaker via pip `pip install littelbaker`
 ## Examples and Usage
 
     littlebaker.make.
-> a_list()
-### length
-> a_dict()
-> a_matrix()
-> an_array()
-> some_json()
-> a_csv()
-> a_df()
+
+- a_list()
+- a_dict()
+- a_matrix()
+- an_array()
+- some_json()
+- a_csv()
+- a_df()
