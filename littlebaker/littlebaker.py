@@ -320,6 +320,8 @@ class make(object):
         self.rows = rows
         self.df = df
         self.index = index
+        if type(self.index) is not bool:
+            raise ValueError(f"Value `{self.index}` specified in index is not a valid boolean, please use either True or False")
         if self.df != "default" and type(self.df) is not pd.DataFrame:
             raise TypeError(
                 f"df '{self.df}' of type {type(self.df)} is not of correct type 'Pandas DataFrame'"
