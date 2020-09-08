@@ -11,7 +11,10 @@ from typing import List
 import numpy as np
 import pandas as pd
 
-import beemovie  # noqa
+try:
+    import beemovie  # noqa
+except ImportError:
+    from . import beemovie
 
 pd.options.display.max_columns = 8  # 2
 
