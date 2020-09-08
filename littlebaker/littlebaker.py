@@ -13,7 +13,6 @@ import pandas as pd
 
 import beemovie  # noqa
 
-
 pd.options.display.max_columns = 8  # 2
 
 current_year = datetime.datetime.now().year
@@ -266,8 +265,8 @@ class make(object):
     # Generate numpy array
     def an_array(self, matrix: List[list] = "default") -> np.array:
         """
-        Generates a numpy array. Defaults to creating an array generated from the default littlechef.make.a_matrix(), \n
-        but any valid list can be passed as an argument (including a custom littlechef.make.a_matrix())
+        Generates a numpy array. Defaults to creating an array generated from the default littlebaker.make.a_matrix(), \n
+        but any valid list can be passed as an argument (including a custom littlebaker.make.a_matrix())
         """
         self.matrix = matrix
         if matrix == "default":
@@ -300,15 +299,15 @@ class make(object):
     def a_csv(
         self,
         path=Path.cwd(),
-        filename: str = "littlechef.csv",
+        filename: str = "littlebaker.csv",
         rows: int = 100,
         df: pd.DataFrame = "default",
     ) -> csv:
         """
         Generates and saves a csv file. Specify the path to save (path, defaults to the current directory),\n
-        file name (filename, defaults to 'littlechef.csv'),\n
+        file name (filename, defaults to 'littlebaker.csv'),\n
         number of rows (rows, defaults to 100),\n
-        and dataframe to use (df, defaults to littlechef.make.a_df())
+        and dataframe to use (df, defaults to littlebaker.make.a_df())
         """
         self.filename = filename
         self.path = path
