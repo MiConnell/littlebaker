@@ -85,8 +85,18 @@ def test_matrix_creation():
 def test_array_creation():
     mtr = littlebaker.make.a_matrix()
     assert type(littlebaker.make.an_array(mtr)) is np.ndarray
+    with pytest.raises(TypeError):
+        littlebaker.make.an_array(matrix=0)
 
 def test_csv_creation():
     baker_csv = littlebaker.make.a_csv()
     with pytest.raises(TypeError):
         littlebaker.make.a_csv(df='a')
+    with pytest.raises(ValueError):
+        littlebaker.make.a_csv(path='notavalidpath')
+    with pytest.raises(ValueError):
+        littlebaker.make.a_csv(filename='notavalidname')
+    with pytest.raises(ValueError):
+        littlebaker.make.a_csv(rows=-9)
+    with pytest.raises(TypeError):
+        littlebaker.make.a_csv(index=10)
