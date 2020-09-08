@@ -305,6 +305,7 @@ class make(object):
         filename: str = "littlebaker.csv",
         rows: int = 100,
         df: pd.DataFrame = "default",
+        index: bool = False,
     ) -> csv:
         """
         Generates and saves a csv file. Specify the path to save (path, defaults to the current directory),\n
@@ -316,7 +317,8 @@ class make(object):
         self.path = path
         self.rows = rows
         self.df = df
-        if type(self.df) is not pd.DataFrame:
+        self.index = index
+        if self.df != "default" and type(self.df) is not pd.DataFrame:
             raise TypeError(
                 f"df '{self.df}' of type {type(self.df)} is not of correct type 'Pandas DataFrame'"
             )
@@ -327,9 +329,9 @@ class make(object):
         else:
             self.destination = Path(fr"{self.path}/{self.filename}")
         if self.df == "default":
-            self.a_df(n=self.rows).to_csv(self.destination)
+            self.a_df(n=self.rows).to_csv(self.destination, index=self.index)
         else:
-            self.df.to_csv(self.destination)
+            self.df.to_csv(self.destination, index=self.index)
         print(f"csv {self.destination} created!")
 
 
