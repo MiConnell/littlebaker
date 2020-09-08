@@ -22,7 +22,9 @@ simply install littlebaker via pip `pip install littelbaker`
 
 ## Examples and Usage
 
+    littlebaker.make.
 > a_list()
+### length
 > a_dict()
 > a_matrix()
 > an_array()
