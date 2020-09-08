@@ -342,8 +342,10 @@ class make(object):
 make = make()
 
 
-"""INDEX"""
+"""
+INDEX
 # 1 Bee Movie script - useful for generating random words/sentences
 # 2 Option to print out all columns in Pandas DataFrame when returned
 # 3 Lowercase American English alphabet
 # 4 Random segments of the Bee Movie script
+"""
