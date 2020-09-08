@@ -91,7 +91,7 @@ simply install littlebaker via pip `pip install littelbaker`
     index=
         boolean to specify if an index is desired in the resulting csv
 
-littlebaker can also generate dates for you with `littlebaker.date_generator()`
+**littlebaker can also generate dates for you with `littlebaker.date_generator()`**
 
 ## date_generator(num_dates, start_year, end_year, as_list)
 
