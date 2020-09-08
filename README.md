@@ -1,6 +1,6 @@
 # littlebaker
 
-![littlebaker](https://user-images.githubusercontent.com/14168559/92290502-2a13cf80-eec9-11ea-9dd7-f460c6bef14b.png)
+![littlebaker](https://user-images.githubusercontent.com/14168559/92421136-ebca1a80-f12b-11ea-8f90-c69ade7a659c.png)
 
 littlebaker is your personal Python baker to create custom lists, dictionaries, matricies (lists of lists), [numpy arrays](https://numpy.org/doc/stable/reference/generated/numpy.array.html), csv files, in-memory json blobs, and [Pandas DataFrames](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html).
 
