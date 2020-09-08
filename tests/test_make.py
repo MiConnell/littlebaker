@@ -87,5 +87,6 @@ def test_array_creation():
     assert type(littlebaker.make.an_array(mtr)) is np.ndarray
 
 def test_csv_creation():
+    baker_csv = littlebaker.make.a_csv()
     with pytest.raises(TypeError):
         littlebaker.make.a_csv(df='a')
