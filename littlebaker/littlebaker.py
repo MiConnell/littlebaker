@@ -3,10 +3,10 @@ import calendar
 import csv
 import datetime
 import json
+import os
 import random
 import string
 from pathlib import Path
-from typing import List
 
 import numpy as np
 import pandas as pd
@@ -19,6 +19,7 @@ except ImportError:
 pd.options.display.max_columns = 8  # 2
 
 current_year = datetime.datetime.now().year
+path = Path.cwd()
 
 
 # Generate dates
@@ -34,7 +35,7 @@ def date_generator(
     end year (end_year, defaults to the current year),\n
     and whether you'd like the resuts as a list (as_list, defaults to False)
     """
-    if num_dates <= 0:
+    if num_dates < 1:
         raise ValueError("Number of dates must be greater than zero")
     if start_year > end_year:
         raise ValueError("start_year must be less than or equal to end_year")
@@ -100,7 +101,7 @@ class make(object):
         """
         self.length = length
         self.data_type = data_type
-        if self.length <= 0:
+        if self.length < 1:
             raise ValueError("Length must be greater than 0")
         if self.data_type == "int":
             return list(range(self.length))
@@ -148,7 +149,7 @@ class make(object):
         """
         self.length = length
         self.value_type = value_type
-        if self.length <= 0:
+        if self.length < 1:
             raise ValueError("length must be greater than 0")
         if self.value_type not in ("char", "int", "float", "str", "date"):
             raise ValueError(f"Invalid value_type of `{self.value_type}`. Valid options are 'int', 'float', 'char', 'date', or 'str'")
@@ -215,6 +216,8 @@ class make(object):
                 "col_datetime",
             ],
         )
+        if self.n < 1:
+            raise ValueError(f"{n=} is invalid, n must be greater than 0")
         self.df["col_datetime"] = pd.to_datetime(self.df["col_datetime"])
         return self.df
 
@@ -224,7 +227,7 @@ class make(object):
         num_lists: int = 5,
         list_length: int = 5,
         value_type: str = "all"
-    ) -> List[list]:
+    ) -> list:
         """
         Generates a matrix (list of lists). Arguments are:\n
         num_lists (how many lists to generate in the list, defaults to 5),\n
@@ -235,9 +238,9 @@ class make(object):
         self.num_lists = num_lists
         self.list_length = list_length
         self.value_type = value_type
-        if self.num_lists <= 0:
+        if self.num_lists < 1:
             raise ValueError("num_lists must be greater than 0")
-        if self.list_length <= 0:
+        if self.list_length < 1:
             raise ValueError("list_length must be greater than 0")
         if self.value_type not in (
             "all",
@@ -268,12 +271,14 @@ class make(object):
         return list(of_lists)
 
     # Generate numpy array
-    def an_array(self, matrix: List[list] = "default") -> np.array:
+    def an_array(self, matrix: list = "default") -> np.array:
         """
         Generates a numpy array. Defaults to creating an array generated from the default littlebaker.make.a_matrix(), \n
         but any valid list can be passed as an argument (including a custom littlebaker.make.a_matrix())
         """
         self.matrix = matrix
+        if type(self.matrix) is not list:
+            raise TypeError(f"matrix argument is of type {type(self.matrix)} is invalid, please ensure the argument is a list of lists")
         if matrix == "default":
             self.matrix = self.a_matrix()
             return np.array(self.matrix)
@@ -298,12 +303,14 @@ class make(object):
             self.a_list(length=self.value_length, data_type="float"),
         ]
         self.data = dict(zip(self.int_list, self.value_list))
+        if self.value_length < 1:
+            raise ValueError(f"{value_length=} is invalid, value must be greater than 0")
         return json.dumps(self.data, indent=4)
 
     # Generate and save a csv
     def a_csv(
         self,
-        path=Path.cwd(),
+        path=path,
         filename: str = "littlebaker.csv",
         rows: int = 100,
         df: pd.DataFrame = "default",
@@ -320,12 +327,18 @@ class make(object):
         self.rows = rows
         self.df = df
         self.index = index
+        if self.rows < 1:
+            raise ValueError(f"{rows=} is invalid, value must be greater than zero, ")
         if type(self.index) is not bool:
-            raise ValueError(f"Value `{self.index}` specified in index is not a valid boolean, please use either True or False")
+            raise TypeError(f"`{index=}` specified in index is not a valid boolean, please use either True or False")
         if self.df != "default" and type(self.df) is not pd.DataFrame:
             raise TypeError(
                 f"df '{self.df}' of type {type(self.df)} is not of correct type 'Pandas DataFrame'"
             )
+        if not os.path.exists(self.path):
+            raise ValueError(f"supplied path at '{self.path}' is not a valid file path")
+        if self.filename[-3:] != "csv":
+            raise ValueError(f"filename {self.filename} is invalid, please ensure the filename ends in '.csv'")
         if self.path == Path.cwd():
             self.destination = Path(fr"{self.path}/{self.filename}")
         elif path[-1] in ("/", "\\"):
