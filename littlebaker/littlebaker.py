@@ -40,6 +40,8 @@ def date_generator(
         raise ValueError("start_year must be less than or equal to end_year")
     if start_year < 1:
         raise ValueError("start_year must be greater than 0")
+    if type(as_list) is not bool:
+        raise ValueError(f"Value `{as_list}` specified in as_list is not a valid boolean, please use either True or False")
     if not as_list:
         if num_dates == 1:
             year = random.randint(start_year, end_year)
