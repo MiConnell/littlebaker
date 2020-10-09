@@ -81,9 +81,6 @@ class make(object):
     def __init__(self):
         self.alpha = string.ascii_lowercase  # 3
 
-    def __repr__(self):
-        return "Class for making dummy objects - lists, dictionaries, dataframes, matricies, arrays, json, and csv files"
-
     # Generate lists
     def a_list(
         self,
