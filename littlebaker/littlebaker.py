@@ -1,4 +1,3 @@
-# Numbered comments are defined in the index at the end of the file
 import calendar
 import csv
 import datetime
@@ -16,7 +15,7 @@ try:
 except ImportError:
     from . import beemovie
 
-pd.options.display.max_columns = 8  # 2
+pd.options.display.max_columns = 8
 
 current_year = datetime.datetime.now().year
 path = Path.cwd()
@@ -79,7 +78,7 @@ def date_generator(
 
 class make(object):
     def __init__(self):
-        self.alpha = string.ascii_lowercase  # 3
+        self.alpha = string.ascii_lowercase
 
     # Generate lists
     def a_list(
@@ -195,7 +194,7 @@ class make(object):
                 [
                     random.randint(1, 1000),
                     random.random() + random.randint(1, 1000),
-                    beemovie.script(),  # 4
+                    beemovie.script(),
                     False,
                     True,
                     np.nan,
@@ -350,12 +349,3 @@ class make(object):
 
 
 make = make()
-
-
-"""
-INDEX
-# 1 Bee Movie script - useful for generating random words/sentences
-# 2 Option to print out all columns in Pandas DataFrame when returned
-# 3 Lowercase American English alphabet
-# 4 Random segments of the Bee Movie script
-"""
